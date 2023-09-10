@@ -8,20 +8,31 @@ import { useState, useEffect } from "react";
 function App() {
   const [data, setdata] = useState(null);
   const [searchdata, sersearchdata] = useState("");
+  let [time, settime] = useState(0)
   useEffect(() => {
     getdata();
+   
+  }, []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+     settime(time++)
+    }, 1000);
+    return () => clearInterval(interval);
   }, []);
 
-
-  // Button Click Search 
   const search = () => {
-    setdata(
-      data.filter((val) => {
-        return searchdata === ""
-          ? val
-          : val.name.toLowerCase().includes(searchdata.toLowerCase());
-      })
-    );
+    if (search === ""){
+setdata(...data)
+    }
+    else{
+      setdata(
+        data.filter((val) => {
+          return searchdata === ""
+            ? val
+            : val.name.toLowerCase().includes(searchdata.toLowerCase());
+        })
+      );
+    }
   };
 
   const getdata = async () => {
@@ -54,6 +65,7 @@ function App() {
             </button>
           </div>
         </div>
+        <h1>Time : {time}</h1>
         <table className="table table-striped">
           <thead>
             <tr>
